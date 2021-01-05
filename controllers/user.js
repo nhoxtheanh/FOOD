@@ -69,7 +69,7 @@ const signup = async(req, res, next) => {
 
             req.flash(
                 "success",
-                "Đăng ký tài khoản thành công. Chào mừng bạn đến với Stunning Recipe"
+                "Đăng ký tài khoản thành công. Chào mừng bạn đến với F.O.O.D"
             );
             res.redirect("/login");
         }

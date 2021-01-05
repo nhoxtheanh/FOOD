@@ -1,4 +1,4 @@
-const appName = "Stunning Recipe";
+const appName = "F.O.O.D";
 
 // Messages
 const addDishSuccess = "Công thức của bạn đã được gửi thành công. Xin hay đợi quản trị viên kiểm duyệt";
