@@ -1457,7 +1457,7 @@ a.dish-type-item {
 }
 
 .item-info-header .item-info-stats ul.item-info-stats-2{
-    min-height: 40px;
+    min-height: 0px;
 }
 
 .item-info-header .item-info-stats ul.item-info-stats-2 li {
@@ -1481,6 +1481,7 @@ a.dish-type-item {
 }
 
 .item-info-header .item-info-createdDate {
+    display: none;
     font-size: 0.8em;
     font-style: italic;
 }
@@ -1684,6 +1685,7 @@ a.filter-link:hover {
 }
 
 #dish-detail-wrapper .dish-detail-content .dish-publish>div.dish-publish-date {
+    display: none;
     font-size: .85em;
     color: #777777;
 }

@@ -1,21 +1,21 @@
 const appName = "F.O.O.D";
 
 // Messages
-const addDishSuccess = "Công thức của bạn đã được gửi thành công. Xin hay đợi quản trị viên kiểm duyệt";
+const addDishSuccess = "Món ăn của bạn đã được gửi thành công. Xin hay đợi quản trị viên kiểm duyệt";
 const uploadIngredientImageFail = "Upload ảnh thất bại";
 const uploadDishImageFail = "Upload ảnh thất bại";
 const uploadDishStepImageFail = "Upload ảnh thất bại";
-const acceptDishSuccess = "Chấp nhận công thức thành công";
-const acceptDishFail = "Chấp nhận công thức thất bại";
-const rejectDishSuccess = "Từ chối công thức thành công";
-const rejectDishFail = "Từ chối công thức thất bại";
+const acceptDishSuccess = "Chấp nhận món ăn thành công";
+const acceptDishFail = "Chấp nhận món ăn thất bại";
+const rejectDishSuccess = "Từ chối món ăn thành công";
+const rejectDishFail = "Từ chối món ăn thất bại";
 const addCommentSuccess = "Thêm bình luận thành công";
 const addCommentFail = "Thêm bình luận thất bại";
 const addReviewSuccess = "Thêm đánh giá thành công";
 const addReviewFail = "Thêm đánh giá thất bại";
 const addFavoriteSuccess = "Đã yêu thích món ăn";
 const removeFavoriteSuccess = "Đã bỏ yêu thích món ăn";
-const dishIsInWaiting = "Công thức đang chờ được quản trị viên kiểm duyệt !!!";
+const dishIsInWaiting = "Món ăn đang chờ được quản trị viên kiểm duyệt !!!";
 const noAuthorityError = "Bạn không có quyền truy cập vào trang này";
 // Constant variables
 const dishTypes = ["Món chính", "Món phụ", "Tráng miệng", "Món khai vị", "Salad", "Bánh", "Ăn sáng", "Soup", "Thức uống", "Nước sốt", "Snack", "Ăn trưa"];

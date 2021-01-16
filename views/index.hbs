@@ -169,8 +169,14 @@
                                                 <div class="item-info-title">
                                                     <a href="/dish/{{dishID}}"><h5 class="truncate2">{{name}}</h5></a>
                                                 </div>
+                                                <div class="recipe-by">
+                                                    <a href="/profile/{{creator.userID}}">
+                                                        <img src="{{getUserAvatarUrl creator.avatar}}" alt="" class="img-circle"/>
+                                                        {{creator.firstName}} {{creator.lastName}}
+                                                    </a>
+                                                </div>
                                                 <div class="item-info-stats">
-                                                    <ul class="item-info-stats-1">
+                                                    {{!-- <ul class="item-info-stats-1">
                                                         <li class="stats-item">
                                                             <i class="fa fa-clock"></i>
                                                             <span>
@@ -184,7 +190,7 @@
                                                                 <span>{{totalView}}</span>
                                                             </span>
                                                         </li>
-                                                    </ul>
+                                                    </ul> --}}
                                                     <!-- Dish types -->
                                                     <ul class="item-info-stats-2">
                                                         <li class="stats-item stats-item-dish-type">
@@ -195,7 +201,7 @@
                                                                 {{/each}}
                                                             </span>
                                                         </li>
-                                                        <li class="stats-item stats-item-cuisine">
+                                                        {{!-- <li class="stats-item stats-item-cuisine">
                                                             <span class="truncate1" data-toggle="tooltip" title="{{cuisinesStr}}">
                                                                 <i class="fa fa-tint"></i>
                                                                 {{# each cuisines}}
@@ -210,24 +216,18 @@
                                                                     <span><a herf="#">{{getDietName dietID}}</a></span>,&nbsp;
                                                                 {{/each}}
                                                             </span>
-                                                        </li>
+                                                        </li> --}}
                                                     </ul>
                                                 </div>
-                                                <div class="item-info-createdDate">
+                                                {{!-- <div class="item-info-createdDate">
                                                     <span>{{parseDateTime createdDate "/"}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="item-info-footer">
+                                                </div> --}}
                                                 <div class="item-rating">
                                                     <input type="hidden" class="starRating kv-ltr-theme-fas-star rating-loading" value="{{rating}}" disabled data-size="xs"/>
                                                 </div>
-                                                <br>
-                                                <div class="recipe-by mt-3">
-                                                    <a href="/profile/{{creator.userID}}">
-                                                        <img src="{{getUserAvatarUrl creator.avatar}}" alt="" class="img-circle"/>
-                                                        {{creator.firstName}} {{creator.lastName}}
-                                                    </a>
-                                                </div>
+                                            </div>
+                                            <div class="item-info-footer">
+                                                <button type="button" class="btn btn-outline-success" style="min-width: 100%;"><i class="fas fa-cart-plus mr-4"></i>Đặt món</button>
                                             </div>
                                         </div>
                                     </div>
@@ -286,8 +286,14 @@
                                                 <div class="item-info-title">
                                                     <a href="/dish/{{dishID}}"><h5 class="truncate2">{{name}}</h5></a>
                                                 </div>
+                                                <div class="recipe-by">
+                                                    <a href="/profile/{{creator.userID}}">
+                                                        <img src="{{getUserAvatarUrl creator.avatar}}" alt="" class="img-circle"/>
+                                                        {{creator.firstName}} {{creator.lastName}}
+                                                    </a>
+                                                </div>
                                                 <div class="item-info-stats">
-                                                    <ul class="item-info-stats-1">
+                                                    {{!-- <ul class="item-info-stats-1">
                                                         <li class="stats-item">
                                                             <i class="fa fa-clock"></i>
                                                             <span>
@@ -301,7 +307,7 @@
                                                                 <span>{{totalView}}</span>
                                                             </span>
                                                         </li>
-                                                    </ul>
+                                                    </ul> --}}
                                                     <!-- Dish types -->
                                                     <ul class="item-info-stats-2">
                                                         <li class="stats-item stats-item-dish-type">
@@ -312,7 +318,7 @@
                                                                 {{/each}}
                                                             </span>
                                                         </li>
-                                                        <li class="stats-item stats-item-cuisine">
+                                                        {{!-- <li class="stats-item stats-item-cuisine">
                                                             <span class="truncate1" data-toggle="tooltip" title="{{cuisinesStr}}">
                                                                 <i class="fa fa-tint"></i>
                                                                 {{# each cuisines}}
@@ -327,23 +333,18 @@
                                                                     <span><a herf="#">{{getDietName dietID}}</a></span>,&nbsp;
                                                                 {{/each}}
                                                             </span>
-                                                        </li>
+                                                        </li> --}}
                                                     </ul>
                                                 </div>
-                                                <div class="item-info-createdDate">
+                                                {{!-- <div class="item-info-createdDate">
                                                     <span>{{parseDateTime createdDate "/"}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="item-info-footer">
+                                                </div> --}}
                                                 <div class="item-rating">
                                                     <input type="hidden" class="starRating kv-ltr-theme-fas-star rating-loading" value="{{rating}}" disabled data-size="xs"/>
                                                 </div>
-                                                <div class="recipe-by mt-3">
-                                                    <a href="/profile/{{creator.userID}}">
-                                                        <img src="{{getUserAvatarUrl creator.avatar}}" alt="" class="img-circle"/>
-                                                        {{creator.firstName}} {{creator.lastName}}
-                                                    </a>
-                                                </div>
+                                            </div>
+                                            <div class="item-info-footer">
+                                                <button type="button" class="btn btn-outline-success" style="min-width: 100%;"><i class="fas fa-cart-plus mr-4"></i>Đặt món</button>
                                             </div>
                                         </div>
                                     </div>
