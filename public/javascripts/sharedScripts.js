@@ -772,7 +772,15 @@ function addToCart(dishID) {
             if (dataJson.success) {
                 //$('.favoriteNumber' + dishID).html(dataJson.newFavoriteNumber);
                 const currentCart = JSON.parse(localStorage.getItem('myCart'));
-                currentCart.push({"dishID":dishID,"quantity":1});
+                let existedDish = false;
+                currentCart.forEach(element => {
+                    if(element.dishID == dishID) {  // nếu dishID đã có thì + thêm 1
+                        existedDish = true;
+                        element.quantity += 1;
+                    }
+                });
+                if (existedDish === false)
+                    currentCart.push({"dishID":dishID,"quantity":1});   // nếu chưa tồn tại thì thêm vào
                 let myNewCart = JSON.stringify(currentCart);
                 localStorage.setItem('myCart', myNewCart);
                 swal.success("Đã thêm món ăn vào giỏ hàng");

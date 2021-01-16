@@ -135,10 +135,19 @@
                                 </div>
                             </div>
                         </li>
-                        <li id="postRecipe" class="text-center text-white">
-                            <a href="/post_recipe" class="text-white">
+                        {{#ifCond user.userType '==' 1}}
+                            <li id="postRecipe" class="text-center text-white">
+                                <a href="/post_recipe" class="text-white">
                                 <i class="fas fa-sticky-note mr-2"></i>Món ăn mới</a>
-                        </li>
+                            </li>
+                        {{/ifCond}}
+                        {{#ifCond user.userType '==' 2}}
+                            <li id="viewMyCart" class="text-center text-white">
+                                <a href="/view_cart" class="text-white">
+                                    <i class="fas fa-shopping-cart mr-2"></i>Xem giỏ hàng</a>
+                            </li>
+                        {{/ifCond}}
+                        
                         <li id="logout" class="text-center text-white">
                             <a href="/logout" class="text-white" onclick="localStorage.removeItem('myCart');">
                                 <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất</a>
@@ -447,8 +456,8 @@
                                 <i class="fas fa-expand"></i>
                             </div>
                             <div class="col-8 text-form-footer">
-                                <h3>Hướng dẫn chi tiết</h3>
-                                <p>Đầy đủ</p>
+                                <h3>Đặt hàng nhanh chóng</h3>
+                                <p>Tiện lợi</p>
                             </div>
                         </div>
                     </div>

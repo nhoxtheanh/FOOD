@@ -34,7 +34,8 @@ const dishStepPath = "dishstep/";
 const SALT_ROUNDS = 10;
 const userType = {
     admin: 0,
-    user: 1
+    user: 1,
+    customer: 2
 }
 const dishRecipeStatus = {
     waiting: 0,

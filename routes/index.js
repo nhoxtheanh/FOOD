@@ -70,6 +70,11 @@ router.get("/profile", requireLogin, async(req, res) => {
 });
 router.get('/profile/:id', userController.profile);
 
+router.get("/view_cart", requireLogin, async(req, res) => {
+    return res.redirect(`/view_cart/${req.user.userID}`);
+});
+router.get('/view_cart/:id', userController.viewCart);
+
 /* Your own Information */
 router.get('/yourInfo', requireLogin, userController.yourInfo);
 

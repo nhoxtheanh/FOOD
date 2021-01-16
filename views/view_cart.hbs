@@ -1,0 +1,164 @@
+<link rel="stylesheet" href="https://bootswatch.com/4/simplex/bootstrap.min.css" />
+
+<!-- profile style -->
+<link href="/stylesheets/profile.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<style>
+    .nav-link {
+        padding: .5rem 1rem;
+    }
+</style>
+
+
+<div class="container" style="font-size: 16.5px">
+    {{!-- <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+        <span>H</span>ồ sơ
+    </h3> --}}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="card-title mb-4">
+                        <div class="d-flex justify-content-start">
+                            <div class="image-container">
+                                <img src="{{userProfile.avatarUrl}}" id="imgProfile" style="width: 216px; height: 216px"
+                                    class="img-thumbnail" />
+
+                            </div>
+                            <div class="userData ml-3">
+                                <style>
+                                    h1,
+                                    h2,
+                                    h3,
+                                    h4,
+                                    h5,
+                                    h6 {
+                                        line-height: 1;
+                                    }
+                                </style>
+                                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a
+                                        href="javascript:void(0);">{{userProfile.firstName}} {{userProfile.lastName}}
+                                        (@{{userProfile.username}})</a></h2>
+
+                                <br>
+                                <h6 class="d-block"><a href="javascript:void(0)">{{allDishesCount}}</a> Đơn hàng</h6>
+                                <h6 class="d-block"><a href="javascript:void(0)">{{userProfile.totalReviewSent}}</a>
+                                    Lượt đánh giá</h6>
+                                <h6 class="d-block"> Tham gia ngày {{parseDate userProfile.createdDate "/"}}</h6>
+                                {{#if userProfile.phone}}
+                                <h6 class="d-block"> <i class="fa fa-phone" aria-hidden="true"></i>
+                                    {{userProfile.phone}}</h6>
+                                {{/if}}
+                                {{#if userProfile.email}}
+                                <h6 class="d-block"> <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    {{userProfile.email}}</h6>
+                                {{/if}}
+                                <h6 class="d-block"><i class="fas fa-map-marker-alt"></i> Địa chỉ giao hàng: 227 Đ.
+                                    Nguyễn Văn Cừ, Phường 4, Quận 5, Thành phố Hồ Chí Minh</h6>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo"
+                                        role="tab" aria-controls="basicInfo" aria-selected="true">Giỏ hàng của bạn</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent" style="padding-top: 20px;">
+                                <div class="tab-pane fade show active" id="basicInfo" role="tabpanel"
+                                    aria-labelledby="basicInfo-tab">
+
+
+
+                                    <div class="container">
+                                        {{#if allDishes}}
+                                        <div class="row">
+                                            {{# each allDishes}}
+                                            <div class="col-md-3 mb-3">
+                                                <div class="item-inner card shadow">
+                                                    <div class="item-image">
+                                                        <a href="/dish/{{dishID}}">
+                                                            <img src="{{imageUrl}}" class="responsive" />
+                                                        </a>
+                                                        <div class="item-favorite">
+                                                            <span
+                                                                class="favoriteNumber{{dishID}}">{{favoriteNumber}}</span>
+                                                            {{#if isUserFavorite}}
+                                                            <i class="fa fa-heart favorite-dish" id="{{dishID}}"></i>
+                                                            {{else}}
+                                                            <i class="far fa-heart favorite-dish" id="{{dishID}}"></i>
+                                                            {{/if}}
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-info">
+                                                        <div class="item-info-header">
+                                                            <div class="item-info-title">
+                                                                <a href="/dish/{{dishID}}">
+                                                                    <h5 class="truncate2">{{name}}</h5>
+                                                                </a>
+                                                            </div>
+                                                            <div class="recipe-by">
+                                                                <a href="/profile/{{creator.userID}}">
+                                                                    <img src="{{getUserAvatarUrl creator.avatar}}"
+                                                                        alt="" class="img-circle" />
+                                                                    {{creator.firstName}} {{creator.lastName}}
+                                                                </a>
+                                                            </div>
+                                                            <div class="item-info-stats">
+                                                                <!-- Dish types -->
+                                                                <ul class="item-info-stats-2">
+                                                                    <li class="stats-item stats-item-dish-type">
+                                                                        <span class="truncate1" data-toggle="tooltip"
+                                                                            title="{{dishTypesStr}}">
+                                                                            <i class="fa fa-fire"></i>
+                                                                            {{# each dishTypes}}
+                                                                            <span><a herf="#">{{getDishTypeName
+                                                                                    dishTypeID}}</a></span>,&nbsp;
+                                                                            {{/each}}
+                                                                        </span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="item-rating">
+                                                                <input type="hidden"
+                                                                    class="starRating kv-ltr-theme-fas-star rating-loading"
+                                                                    value="{{rating}}" disabled data-size="xs" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-info-footer">
+                                                            <button type="button"
+                                                                class="btn btn-outline-success add-to-cart"
+                                                                id="{{dishID}}" style="min-width: 100%;"><i
+                                                                    class="fas fa-cart-plus mr-4"></i>Đặt món</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                        {{else}}
+                                        <div>Giỏ hàng trống</div>
+                                        {{/if}}
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

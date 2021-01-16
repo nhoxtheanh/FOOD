@@ -187,6 +187,128 @@ const profile = async(req, res) => {
     });
 };
 
+const viewCart = async(req, res) => {
+    const profileUserID = req.params.id; // ID của user đang được xem profile
+    var loginUserID;
+    if (req.isAuthenticated()) {
+        loginUserID = req.user.userID; // ID của user đang đăng nhập
+    } else loginUserID = -1;
+
+    const userProfile = await User.getUser(profileUserID);
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////// Lấy ảnh đại diện
+    userProfile.avatarUrl = () => constant.imageStorageLink + constant.userPath + userProfile.avatar;
+    ////////////////////// Lấy dữ liệu các bài viết
+    const customDishTypes = constant.dishTypes.map((item, idx) => {
+        return { name: item, index: (idx) };
+    });
+    const customCuisines = constant.cuisines.map((item, idx) => {
+        return { name: item, index: idx };
+    });
+    const customDiets = constant.diets.map((item, idx) => {
+        return { name: item, index: idx };
+    });
+
+    // Multi threads: get dishes
+    const results = await Promise.all([
+        new Promise(async (resolve, reject) => {
+            // lấy danh sách các món ăn đã post
+            const postedDishes = await Dish.getDishes({ // query
+                createdBy: profileUserID,
+                status: { $in: [constant.dishRecipeStatus.waiting, constant.dishRecipeStatus.accepted, constant.dishRecipeStatus.rejected,]}
+            }, { // option
+                sort: { createdDate: -1 },
+            });
+            resolve(postedDishes);
+        }),
+        new Promise(async (resolve, reject) => {
+            // lấy danh sách các món ăn đã yêu thích
+            const favoritedDishes = await User.getFavoriteDish({ // query
+                userID: profileUserID
+            }, { // option
+                sort: { createdDate: -1 },
+            });
+            resolve(favoritedDishes);
+        }),
+        new Promise(async (resolve, reject) => {
+            // lấy danh sách các món ăn đã post
+            const allDishes = await Dish.getDishes({}, {});
+            resolve(allDishes);
+        }),
+    ]);
+
+    const postedDishes = results[0];
+    const favoritedDishes = results[1];
+    const allDishes = results[2]
+
+    const favoriteHashMap = {};
+    const allDishIDs = [
+        ...postedDishes.map((dish, index) => dish.dishID),
+        ...favoritedDishes.map((dish, index) => dish.dishID),
+        ...allDishes.map((dish, index) => dish.dishID)
+    ];
+    if (req.user) {
+        const userFavoriteDishes = await User.getUserFavoriteDishes(req.user.userID, allDishIDs);
+        userFavoriteDishes.forEach((favDish, index) => {
+            favoriteHashMap[favDish.dishID] = 1
+        });
+    }
+
+    // Multi threads: processing dishes
+    await Promise.all([
+        new Promise(async (resolve, reject) => {
+            postedDishes.forEach((dish) => {
+                dish.imageUrl = () => constant.imageStorageLink + constant.dishPath + dish.image;
+                dish.isUserFavorite = favoriteHashMap[dish.dishID] != undefined;
+                dish.dishTypesStr = dish.dishTypes.map((item, idx) => constant.dishTypes[item.dishTypeID - 1]).join(constant.commaSpace);
+                dish.cuisinesStr = dish.cuisines.map((item, idx) => constant.cuisines[item.cuisineID - 1]).join(constant.commaSpace);
+                dish.dietsStr = dish.diets.map((item, idx) => constant.diets[item.dietID - 1]).join(constant.commaSpace);
+            });
+            resolve(true);
+        }),
+        new Promise(async (resolve, reject) => {
+            favoritedDishes.forEach((favorite) => {
+                favorite.imageUrl = () => constant.imageStorageLink + constant.dishPath + favorite.dish.image;
+                favorite.isUserFavorite = favoriteHashMap[favorite.dish.dishID] != undefined;
+                favorite.dishTypesStr = favorite.dish.dishTypes.map((item, idx) => constant.dishTypes[item.dishTypeID - 1]).join(constant.commaSpace);
+                favorite.cuisinesStr = favorite.dish.cuisines.map((item, idx) => constant.cuisines[item.cuisineID - 1]).join(constant.commaSpace);
+                favorite.dietsStr = favorite.dish.diets.map((item, idx) => constant.diets[item.dietID - 1]).join(constant.commaSpace);
+            });
+            resolve(true);
+        }),
+        new Promise(async (resolve, reject) => {
+            allDishes.forEach((dish) => {
+                dish.imageUrl = () => constant.imageStorageLink + constant.dishPath + dish.image;
+                dish.isUserFavorite = favoriteHashMap[dish.dishID] != undefined;
+                dish.dishTypesStr = dish.dishTypes.map((item, idx) => constant.dishTypes[item.dishTypeID - 1]).join(constant.commaSpace);
+                dish.cuisinesStr = dish.cuisines.map((item, idx) => constant.cuisines[item.cuisineID - 1]).join(constant.commaSpace);
+                dish.dietsStr = dish.diets.map((item, idx) => constant.diets[item.dietID - 1]).join(constant.commaSpace);
+            });
+            resolve(true);
+        }),
+    ])
+    ////////////////////// Lấy dữ liệu món ăn yêu thích
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    res.render("view_cart", {
+        title: constant.appName,
+        user: req.user,
+        userProfile: userProfile,
+        userType: constant.userType,
+        postedDishes: postedDishes,
+        postedDishesCount: postedDishes.length,
+        allDishes: allDishes,
+        allDishesCount: allDishes.length,
+        favoritedDishes: favoritedDishes,
+        dishTypes: constant.splitToChunk(customDishTypes, 6),
+        cuisines: customCuisines,
+        diets: customDiets,
+        dishAccepted: constant.dishRecipeStatus.accepted,
+        dishWaiting: constant.dishRecipeStatus.waiting,
+        dishRejected: constant.dishRecipeStatus.rejected,
+    });
+};
 const yourInfo = async(req, res) => {
     if (req.isAuthenticated()) {
         //trả về true nếu đã đăng nhập rồi
@@ -362,4 +484,5 @@ module.exports = {
     changePwd,
     doFavorite,
     addToCart,
+    viewCart,
 };
