@@ -112,6 +112,7 @@
     })
     $('#loginBtn').on('click', (e) => {
         if ($loginForm.valid()) {
+            localStorage.setItem('myCart', "[]");
             showLoading();
         }
     })

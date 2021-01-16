@@ -666,6 +666,12 @@ $(document).ready(function() {
         favoriteDish(item.target.id);
     });
 
+    // Favorite (add/remove)
+    $(".add-to-cart").click(function(item) {
+        //$(this).toggleClass("fa far");
+        addToCart(item.target.id);
+    });
+
     // sent review
     const dishID = $('input[name=dishID]').val();
     // const $dishCommentList = $dishComment.find('.dish-comment-list');
@@ -744,6 +750,39 @@ function favoriteDish(dishID) {
         },
         error: function(err) {
             swal.error("Hãy đăng nhập để yêu thích món ăn");
+            //hideLoading();
+        }
+    });
+
+    return;
+}
+
+
+function addToCart(dishID) {
+
+    //showLoading();
+    $.ajax({
+        url: '/addToCart',
+        data: {
+            dishID: dishID
+        },
+        type: 'POST',
+        dataType: 'json',
+        success: function(dataJson) {
+            if (dataJson.success) {
+                //$('.favoriteNumber' + dishID).html(dataJson.newFavoriteNumber);
+                const currentCart = JSON.parse(localStorage.getItem('myCart'));
+                currentCart.push({"dishID":dishID,"quantity":1});
+                let myNewCart = JSON.stringify(currentCart);
+                localStorage.setItem('myCart', myNewCart);
+                swal.success("Đã thêm món ăn vào giỏ hàng");
+            } else {
+                swal.error(dataJson.message);
+            }
+            //hideLoading();
+        },
+        error: function(err) {
+            swal.error("Hãy đăng nhập để đặt món ăn");
             //hideLoading();
         }
     });

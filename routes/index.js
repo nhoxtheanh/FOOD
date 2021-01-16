@@ -85,6 +85,8 @@ router.post('/changePwd', requireLogin, userController.changePwd);
 
 /* Do Favorite */
 router.post('/doFavorite', requireLogin, userController.doFavorite);
+
+router.post('/addToCart', requireLogin, userController.addToCart);
 /* Add Review */
 router.post('/addReview', requireLogin, dishController.addReview);
 

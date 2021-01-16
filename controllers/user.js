@@ -333,6 +333,20 @@ const doFavorite = async(req, res) => {
 
 }
 
+
+const addToCart = async(req, res) => {
+    // const dishID = parseInt(req.body.dishID);
+    // const user = req.user;
+    // let cartListParsed = JSON.parse(cartList);
+    // cartListParsed['cart'].push({"dishID":dishID,"quantily":1});
+    res.json({
+        success: true,
+        message: "Đã thêm món ăn vào giỏ hàng",
+        //cartList: cartListParsed
+    })
+
+}
+
 module.exports = {
     loginView,
     login,
@@ -347,4 +361,5 @@ module.exports = {
     changePwdView,
     changePwd,
     doFavorite,
+    addToCart,
 };
