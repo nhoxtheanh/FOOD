@@ -3059,5 +3059,8 @@ input[type="file"] {
     margin: 20px auto;
 }
 
+.dishPrice {
+    color: purple;
+}
 
 /*--//responsive--*/

@@ -79,13 +79,13 @@
                                         {{#if allDishes}}
                                         <div class="row">
                                             {{# each allDishes}}
-                                            <div class="col-md-3 mb-3">
+                                            <div class="col-md-3 mb-3 d-none" id={{dishID}}>
                                                 <div class="item-inner card shadow">
                                                     <div class="item-image">
                                                         <a href="/dish/{{dishID}}">
                                                             <img src="{{imageUrl}}" class="responsive" />
                                                         </a>
-                                                        <div class="item-favorite">
+                                                        {{!-- <div class="item-favorite">
                                                             <span
                                                                 class="favoriteNumber{{dishID}}">{{favoriteNumber}}</span>
                                                             {{#if isUserFavorite}}
@@ -94,7 +94,7 @@
                                                             <i class="far fa-heart favorite-dish" id="{{dishID}}"></i>
                                                             {{/if}}
 
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                     <div class="item-info">
                                                         <div class="item-info-header">
@@ -125,18 +125,14 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            <div class="item-rating">
-                                                                <input type="hidden"
-                                                                    class="starRating kv-ltr-theme-fas-star rating-loading"
-                                                                    value="{{rating}}" disabled data-size="xs" />
-                                                            </div>
+                                                            <b class="dishPrice">30.000đ</b>
                                                         </div>
-                                                        <div class="item-info-footer">
+                                                        {{!-- <div class="item-info-footer">
                                                             <button type="button"
                                                                 class="btn btn-outline-success add-to-cart"
                                                                 id="{{dishID}}" style="min-width: 100%;"><i
                                                                     class="fas fa-cart-plus mr-4"></i>Đặt món</button>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -162,3 +158,26 @@
 
     </div>
 </div>
+
+<script>
+$(document).ready(function(){
+    const currentCart = JSON.parse(localStorage.getItem('myCart'));
+    currentCart.forEach(element => {
+        $(`#${element.dishID}`).toggleClass("d-none");
+    });
+});
+
+/*const currentCart = JSON.parse(localStorage.getItem('myCart'));
+let existedDish = false;
+currentCart.forEach(element => {
+    if(element.dishID == dishID) {  // nếu dishID đã có thì + thêm 1
+        existedDish = true;
+        element.quantity += 1;
+    }
+});
+if (existedDish === false)
+    currentCart.push({"dishID":dishID,"quantity":1});   // nếu chưa tồn tại thì thêm vào
+let myNewCart = JSON.stringify(currentCart);
+localStorage.setItem('myCart', myNewCart);
+swal.success("Đã thêm món ăn vào giỏ hàng");*/
+</script>

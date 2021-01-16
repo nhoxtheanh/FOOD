@@ -211,25 +211,25 @@ const viewCart = async(req, res) => {
 
     // Multi threads: get dishes
     const results = await Promise.all([
-        new Promise(async (resolve, reject) => {
-            // lấy danh sách các món ăn đã post
-            const postedDishes = await Dish.getDishes({ // query
-                createdBy: profileUserID,
-                status: { $in: [constant.dishRecipeStatus.waiting, constant.dishRecipeStatus.accepted, constant.dishRecipeStatus.rejected,]}
-            }, { // option
-                sort: { createdDate: -1 },
-            });
-            resolve(postedDishes);
-        }),
-        new Promise(async (resolve, reject) => {
-            // lấy danh sách các món ăn đã yêu thích
-            const favoritedDishes = await User.getFavoriteDish({ // query
-                userID: profileUserID
-            }, { // option
-                sort: { createdDate: -1 },
-            });
-            resolve(favoritedDishes);
-        }),
+        // new Promise(async (resolve, reject) => {
+        //     // lấy danh sách các món ăn đã post
+        //     const postedDishes = await Dish.getDishes({ // query
+        //         createdBy: profileUserID,
+        //         status: { $in: [constant.dishRecipeStatus.waiting, constant.dishRecipeStatus.accepted, constant.dishRecipeStatus.rejected,]}
+        //     }, { // option
+        //         sort: { createdDate: -1 },
+        //     });
+        //     resolve(postedDishes);
+        // }),
+        // new Promise(async (resolve, reject) => {
+        //     // lấy danh sách các món ăn đã yêu thích
+        //     const favoritedDishes = await User.getFavoriteDish({ // query
+        //         userID: profileUserID
+        //     }, { // option
+        //         sort: { createdDate: -1 },
+        //     });
+        //     resolve(favoritedDishes);
+        // }),
         new Promise(async (resolve, reject) => {
             // lấy danh sách các món ăn đã post
             const allDishes = await Dish.getDishes({}, {});
@@ -237,14 +237,14 @@ const viewCart = async(req, res) => {
         }),
     ]);
 
-    const postedDishes = results[0];
-    const favoritedDishes = results[1];
-    const allDishes = results[2]
+    // const postedDishes = results[0];
+    // const favoritedDishes = results[1];
+    const allDishes = results[0]
 
     const favoriteHashMap = {};
     const allDishIDs = [
-        ...postedDishes.map((dish, index) => dish.dishID),
-        ...favoritedDishes.map((dish, index) => dish.dishID),
+        // ...postedDishes.map((dish, index) => dish.dishID),
+        // ...favoritedDishes.map((dish, index) => dish.dishID),
         ...allDishes.map((dish, index) => dish.dishID)
     ];
     if (req.user) {
@@ -256,26 +256,26 @@ const viewCart = async(req, res) => {
 
     // Multi threads: processing dishes
     await Promise.all([
-        new Promise(async (resolve, reject) => {
-            postedDishes.forEach((dish) => {
-                dish.imageUrl = () => constant.imageStorageLink + constant.dishPath + dish.image;
-                dish.isUserFavorite = favoriteHashMap[dish.dishID] != undefined;
-                dish.dishTypesStr = dish.dishTypes.map((item, idx) => constant.dishTypes[item.dishTypeID - 1]).join(constant.commaSpace);
-                dish.cuisinesStr = dish.cuisines.map((item, idx) => constant.cuisines[item.cuisineID - 1]).join(constant.commaSpace);
-                dish.dietsStr = dish.diets.map((item, idx) => constant.diets[item.dietID - 1]).join(constant.commaSpace);
-            });
-            resolve(true);
-        }),
-        new Promise(async (resolve, reject) => {
-            favoritedDishes.forEach((favorite) => {
-                favorite.imageUrl = () => constant.imageStorageLink + constant.dishPath + favorite.dish.image;
-                favorite.isUserFavorite = favoriteHashMap[favorite.dish.dishID] != undefined;
-                favorite.dishTypesStr = favorite.dish.dishTypes.map((item, idx) => constant.dishTypes[item.dishTypeID - 1]).join(constant.commaSpace);
-                favorite.cuisinesStr = favorite.dish.cuisines.map((item, idx) => constant.cuisines[item.cuisineID - 1]).join(constant.commaSpace);
-                favorite.dietsStr = favorite.dish.diets.map((item, idx) => constant.diets[item.dietID - 1]).join(constant.commaSpace);
-            });
-            resolve(true);
-        }),
+        // new Promise(async (resolve, reject) => {
+        //     postedDishes.forEach((dish) => {
+        //         dish.imageUrl = () => constant.imageStorageLink + constant.dishPath + dish.image;
+        //         dish.isUserFavorite = favoriteHashMap[dish.dishID] != undefined;
+        //         dish.dishTypesStr = dish.dishTypes.map((item, idx) => constant.dishTypes[item.dishTypeID - 1]).join(constant.commaSpace);
+        //         dish.cuisinesStr = dish.cuisines.map((item, idx) => constant.cuisines[item.cuisineID - 1]).join(constant.commaSpace);
+        //         dish.dietsStr = dish.diets.map((item, idx) => constant.diets[item.dietID - 1]).join(constant.commaSpace);
+        //     });
+        //     resolve(true);
+        // }),
+        // new Promise(async (resolve, reject) => {
+        //     favoritedDishes.forEach((favorite) => {
+        //         favorite.imageUrl = () => constant.imageStorageLink + constant.dishPath + favorite.dish.image;
+        //         favorite.isUserFavorite = favoriteHashMap[favorite.dish.dishID] != undefined;
+        //         favorite.dishTypesStr = favorite.dish.dishTypes.map((item, idx) => constant.dishTypes[item.dishTypeID - 1]).join(constant.commaSpace);
+        //         favorite.cuisinesStr = favorite.dish.cuisines.map((item, idx) => constant.cuisines[item.cuisineID - 1]).join(constant.commaSpace);
+        //         favorite.dietsStr = favorite.dish.diets.map((item, idx) => constant.diets[item.dietID - 1]).join(constant.commaSpace);
+        //     });
+        //     resolve(true);
+        // }),
         new Promise(async (resolve, reject) => {
             allDishes.forEach((dish) => {
                 dish.imageUrl = () => constant.imageStorageLink + constant.dishPath + dish.image;
@@ -296,11 +296,11 @@ const viewCart = async(req, res) => {
         user: req.user,
         userProfile: userProfile,
         userType: constant.userType,
-        postedDishes: postedDishes,
-        postedDishesCount: postedDishes.length,
+        // postedDishes: postedDishes,
+        // postedDishesCount: postedDishes.length,
         allDishes: allDishes,
         allDishesCount: allDishes.length,
-        favoritedDishes: favoritedDishes,
+        // favoritedDishes: favoritedDishes,
         dishTypes: constant.splitToChunk(customDishTypes, 6),
         cuisines: customCuisines,
         diets: customDiets,
