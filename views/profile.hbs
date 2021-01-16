@@ -4,7 +4,7 @@
 <link href="/stylesheets/profile.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <style>
-    .nav-link{
+    .nav-link {
         padding: .5rem 1rem;
     }
 </style>
@@ -12,8 +12,8 @@
 
 <div class="container" style="font-size: 16.5px">
     {{!-- <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
-            <span>H</span>ồ sơ
-        </h3> --}}
+        <span>H</span>ồ sơ
+    </h3> --}}
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -28,7 +28,12 @@
                             </div>
                             <div class="userData ml-3">
                                 <style>
-                                    h1, h2, h3, h4, h5, h6 {
+                                    h1,
+                                    h2,
+                                    h3,
+                                    h4,
+                                    h5,
+                                    h6 {
                                         line-height: 1;
                                     }
                                 </style>
@@ -39,12 +44,18 @@
                                 <span class="badge badge-danger"
                                     style="font-size: 1.2rem; font-weight: bold; margin-bottom: 12px;">Admin</span>
                                 {{else}}
+                                {{#ifCond userProfile.userType '==' 1}}
                                 <span class="badge badge-success"
                                     style="font-size: 1.2rem; font-weight: bold; margin-bottom: 12px;">Restaurant</span>
+                                {{else}}
+                                <span class="badge badge-success"
+                                    style="font-size: 1.2rem; font-weight: bold; margin-bottom: 12px;">Customer</span>
+                                {{/ifCond}}
                                 {{/ifCond}}
                                 <br>
                                 <h6 class="d-block"><a href="javascript:void(0)">{{postedDishesCount}}</a> Món ăn</h6>
-                                <h6 class="d-block"><a href="javascript:void(0)">{{userProfile.totalReviewSent}}</a> Lượt đánh giá</h6>
+                                <h6 class="d-block"><a href="javascript:void(0)">{{userProfile.totalReviewSent}}</a>
+                                    Lượt đánh giá</h6>
                                 <h6 class="d-block"> Tham gia ngày {{parseDate userProfile.createdDate "/"}}</h6>
                                 {{#if userProfile.phone}}
                                 <h6 class="d-block"> <i class="fa fa-phone" aria-hidden="true"></i>
@@ -55,10 +66,12 @@
                                     {{userProfile.email}}</h6>
                                 {{/if}}
                                 <h6 class="d-block">
-                                    <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;" onclick="window.location.href='https://www.facebook.com/nhoxtheanh';"><a
+                                    <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;"
+                                        onclick="window.location.href='https://www.facebook.com/nhoxtheanh';"><a
                                             href="https://www.facebook.com/nhoxtheanh"><i class="fa fa-facebook"
                                                 aria-hidden="true"></i></a></button>
-                                    <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;"  onclick="window.location.href='https://www.instagram.com/nhoxtheanh';"><a
+                                    <button type="button" class="btn btn-outline-primary" style="margin-right: 10px;"
+                                        onclick="window.location.href='https://www.instagram.com/nhoxtheanh';"><a
                                             href="https://www.instagram.com/nhoxtheanh"><i class="fa fa-instagram"
                                                 aria-hidden="true"></i></a></button>
                                 </h6>
@@ -70,10 +83,12 @@
                     <div class="row">
                         <div class="col-12">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                {{#ifCond userProfile.userType '!=' 2}}
                                 <li class="nav-item">
                                     <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo"
                                         role="tab" aria-controls="basicInfo" aria-selected="true">Menu quán</a>
                                 </li>
+                                {{/ifCond}}
                                 <li class="nav-item">
                                     <a class="nav-link" id="connectedServices-tab" data-toggle="tab"
                                         href="#connectedServices" role="tab" aria-controls="connectedServices"
@@ -81,6 +96,7 @@
                                 </li>
                             </ul>
                             <div class="tab-content" id="myTabContent" style="padding-top: 20px;">
+                                {{#ifCond userProfile.userType '!=' 2}}
                                 <div class="tab-pane fade show active" id="basicInfo" role="tabpanel"
                                     aria-labelledby="basicInfo-tab">
 
@@ -91,87 +107,100 @@
                                         <div class="row">
                                             {{# each postedDishes}}
                                             <div class="col-md-3 mb-3">
-                                    <div class="item-inner card shadow">
-                                        <div class="item-image">
-                                            <a href="/dish/{{dishID}}">
-                                                <img src="{{imageUrl}}" class="responsive"/>
-                                            </a>
-                                            <div class="item-favorite">
-                                                <span class="favoriteNumber{{dishID}}">{{favoriteNumber}}</span>
-                                                {{#if isUserFavorite}}
-                                                    <i class="fa fa-heart favorite-dish" id="{{dishID}}"></i>
-                                                {{else}}
-                                                    <i class="far fa-heart favorite-dish" id="{{dishID}}"></i>
-                                                {{/if}}
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="item-info">
-                                            <div class="item-info-header">
-                                                <div class="item-info-title">
-                                                    <a href="/dish/{{dishID}}"><h5 class="truncate2">{{name}}</h5></a>
+                                                <div class="item-inner card shadow">
+                                                    <div class="item-image">
+                                                        <a href="/dish/{{dishID}}">
+                                                            <img src="{{imageUrl}}" class="responsive" />
+                                                        </a>
+                                                        <div class="item-favorite">
+                                                            <span
+                                                                class="favoriteNumber{{dishID}}">{{favoriteNumber}}</span>
+                                                            {{#if isUserFavorite}}
+                                                            <i class="fa fa-heart favorite-dish" id="{{dishID}}"></i>
+                                                            {{else}}
+                                                            <i class="far fa-heart favorite-dish" id="{{dishID}}"></i>
+                                                            {{/if}}
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-info">
+                                                        <div class="item-info-header">
+                                                            <div class="item-info-title">
+                                                                <a href="/dish/{{dishID}}">
+                                                                    <h5 class="truncate2">{{name}}</h5>
+                                                                </a>
+                                                            </div>
+                                                            <div class="recipe-by">
+                                                                <a href="/profile/{{creator.userID}}">
+                                                                    <img src="{{getUserAvatarUrl creator.avatar}}"
+                                                                        alt="" class="img-circle" />
+                                                                    {{creator.firstName}} {{creator.lastName}}
+                                                                </a>
+                                                            </div>
+                                                            <div class="item-info-stats">
+                                                                {{!-- <ul class="item-info-stats-1">
+                                                                    <li class="stats-item">
+                                                                        <i class="fa fa-clock"></i>
+                                                                        <span>
+                                                                            <span>{{readyTime}}</span>
+                                                                            <span>min</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="stats-item">
+                                                                        <i class="fa fa-eye"></i>
+                                                                        <span>
+                                                                            <span>{{totalView}}</span>
+                                                                        </span>
+                                                                    </li>
+                                                                </ul> --}}
+                                                                <!-- Dish types -->
+                                                                <ul class="item-info-stats-2">
+                                                                    <li class="stats-item stats-item-dish-type">
+                                                                        <span class="truncate1" data-toggle="tooltip"
+                                                                            title="{{dishTypesStr}}">
+                                                                            <i class="fa fa-fire"></i>
+                                                                            {{# each dishTypes}}
+                                                                            <span><a herf="#">{{getDishTypeName
+                                                                                    dishTypeID}}</a></span>,&nbsp;
+                                                                            {{/each}}
+                                                                        </span>
+                                                                    </li>
+                                                                    {{!-- <li class="stats-item stats-item-cuisine">
+                                                                        <span class="truncate1" data-toggle="tooltip"
+                                                                            title="{{cuisinesStr}}">
+                                                                            <i class="fa fa-tint"></i>
+                                                                            {{# each cuisines}}
+                                                                            <span><a herf="#">{{getCuisineName
+                                                                                    cuisineID}}</a></span>,&nbsp;
+                                                                            {{/each}}
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="stats-item stats-item-diet">
+                                                                        <span class="truncate1" data-toggle="tooltip"
+                                                                            title="{{dietsStr}}">
+                                                                            <i class="fa fa-leaf"></i>
+                                                                            {{# each diets}}
+                                                                            <span><a herf="#">{{getDietName
+                                                                                    dietID}}</a></span>,&nbsp;
+                                                                            {{/each}}
+                                                                        </span>
+                                                                    </li> --}}
+                                                                </ul>
+                                                            </div>
+                                                            {{!-- <div class="item-info-createdDate">
+                                                                <span>{{parseDateTime createdDate "/"}}</span>
+                                                            </div> --}}
+                                                            <b class="dishPrice">30.000đ</b>
+                                                        </div>
+                                                        <div class="item-info-footer">
+                                                            <button type="button"
+                                                                class="btn btn-outline-success add-to-cart"
+                                                                id="{{dishID}}" style="min-width: 100%;"><i
+                                                                    class="fas fa-cart-plus mr-4"></i>Đặt món</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="recipe-by">
-                                                    <a href="/profile/{{creator.userID}}">
-                                                        <img src="{{getUserAvatarUrl creator.avatar}}" alt="" class="img-circle"/>
-                                                        {{creator.firstName}} {{creator.lastName}}
-                                                    </a>
-                                                </div>
-                                                <div class="item-info-stats">
-                                                    {{!-- <ul class="item-info-stats-1">
-                                                        <li class="stats-item">
-                                                            <i class="fa fa-clock"></i>
-                                                            <span>
-                                                                <span>{{readyTime}}</span>
-                                                                <span>min</span>
-                                                            </span>
-                                                        </li>
-                                                        <li class="stats-item">
-                                                            <i class="fa fa-eye"></i>
-                                                            <span>
-                                                                <span>{{totalView}}</span>
-                                                            </span>
-                                                        </li>
-                                                    </ul> --}}
-                                                    <!-- Dish types -->
-                                                    <ul class="item-info-stats-2">
-                                                        <li class="stats-item stats-item-dish-type">
-                                                            <span class="truncate1" data-toggle="tooltip" title="{{dishTypesStr}}">
-                                                                <i class="fa fa-fire"></i>
-                                                                {{# each dishTypes}}
-                                                                    <span><a herf="#">{{getDishTypeName dishTypeID}}</a></span>,&nbsp;
-                                                                {{/each}}
-                                                            </span>
-                                                        </li>
-                                                        {{!-- <li class="stats-item stats-item-cuisine">
-                                                            <span class="truncate1" data-toggle="tooltip" title="{{cuisinesStr}}">
-                                                                <i class="fa fa-tint"></i>
-                                                                {{# each cuisines}}
-                                                                    <span><a herf="#">{{getCuisineName cuisineID}}</a></span>,&nbsp;
-                                                                {{/each}}
-                                                            </span>
-                                                        </li>
-                                                        <li class="stats-item stats-item-diet">
-                                                            <span class="truncate1" data-toggle="tooltip" title="{{dietsStr}}">
-                                                                <i class="fa fa-leaf"></i>
-                                                                {{# each diets}}
-                                                                    <span><a herf="#">{{getDietName dietID}}</a></span>,&nbsp;
-                                                                {{/each}}
-                                                            </span>
-                                                        </li> --}}
-                                                    </ul>
-                                                </div>
-                                                {{!-- <div class="item-info-createdDate">
-                                                    <span>{{parseDateTime createdDate "/"}}</span>
-                                                </div> --}}
-                                                <b class="dishPrice">30.000đ</b>
                                             </div>
-                                            <div class="item-info-footer">
-                                                <button type="button" class="btn btn-outline-success add-to-cart" id="{{dishID}}" style="min-width: 100%;"><i class="fas fa-cart-plus mr-4"></i>Đặt món</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                             {{/each}}
                                         </div>
                                         {{else}}
@@ -182,104 +211,126 @@
 
                                     </div>
                                 </div>
+                                {{/ifCond}}
 
-
-
+                                {{#ifCond userProfile.userType '==' 2}}
+                                <div class="tab-pane fade show active" id="connectedServices" role="tabpanel"
+                                    aria-labelledby="ConnectedServices-tab">
+                                {{else}}
                                 <div class="tab-pane fade" id="connectedServices" role="tabpanel"
                                     aria-labelledby="ConnectedServices-tab">
-                                        <div class="container">
+                                {{/ifCond}}
+                                    <div class="container">
                                         {{#if favoritedDishes}}
                                         <div class="row">
                                             {{# each favoritedDishes}}
                                             <div class="col-md-3 mb-3">
-                                    <div class="item-inner card shadow">
-                                        <div class="item-image">
-                                            <a href="/dish/{{dish.dishID}}">
-                                                <img src="{{imageUrl}}" class="responsive"/>
-                                            </a>
-                                            <div class="item-favorite">
-                                                <span class="favoriteNumber{{dish.dishID}}">{{dish.favoriteNumber}}</span>
-                                                {{#if isUserFavorite}}
-                                                    <i class="fa fa-heart favorite-dish" id="{{dish.dishID}}"></i>
-                                                {{else}}
-                                                    <i class="far fa-heart favorite-dish" id="{{dish.dishID}}"></i>
-                                                {{/if}}
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="item-info">
-                                            <div class="item-info-header">
-                                                <div class="item-info-title">
-                                                    <a href="/dish/{{dishID}}"><h5 class="truncate2">{{dish.name}}</h5></a>
-                                                </div>
-                                                <div class="recipe-by">
+                                                <div class="item-inner card shadow">
+                                                    <div class="item-image">
+                                                        <a href="/dish/{{dish.dishID}}">
+                                                            <img src="{{imageUrl}}" class="responsive" />
+                                                        </a>
+                                                        <div class="item-favorite">
+                                                            <span
+                                                                class="favoriteNumber{{dish.dishID}}">{{dish.favoriteNumber}}</span>
+                                                            {{#if isUserFavorite}}
+                                                            <i class="fa fa-heart favorite-dish"
+                                                                id="{{dish.dishID}}"></i>
+                                                            {{else}}
+                                                            <i class="far fa-heart favorite-dish"
+                                                                id="{{dish.dishID}}"></i>
+                                                            {{/if}}
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-info">
+                                                        <div class="item-info-header">
+                                                            <div class="item-info-title">
+                                                                <a href="/dish/{{dishID}}">
+                                                                    <h5 class="truncate2">{{dish.name}}</h5>
+                                                                </a>
+                                                            </div>
+                                                            <div class="recipe-by">
                                                                 <a href="/profile/{{dish.creator.userID}}">
-                                                                    {{!-- {{#ifCond dish.creator.userType '==' ../userType.admin}}
+                                                                    {{!-- {{#ifCond dish.creator.userType '=='
+                                                                    ../userType.admin}}
                                                                     <img src="/images/StunningRecipe.png" />
                                                                     {{else}}
                                                                     <img src="/images/user.jpg" />
                                                                     {{/ifCond}} --}}
-                                                                    <img src="{{getUserAvatarUrl dish.creator.avatar}}" alt="" class="img-circle"/>
+                                                                    <img src="{{getUserAvatarUrl dish.creator.avatar}}"
+                                                                        alt="" class="img-circle" />
                                                                     {{dish.creator.firstName}} {{dish.creator.lastName}}
                                                                 </a>
                                                             </div>
-                                                <div class="item-info-stats">
-                                                    {{!-- <ul class="item-info-stats-1">
-                                                        <li class="stats-item">
-                                                            <i class="fa fa-clock"></i>
-                                                            <span>
-                                                                <span>{{readyTime}}</span>
-                                                                <span>min</span>
-                                                            </span>
-                                                        </li>
-                                                        <li class="stats-item">
-                                                            <i class="fa fa-eye"></i>
-                                                            <span>
-                                                                <span>{{totalView}}</span>
-                                                            </span>
-                                                        </li>
-                                                    </ul> --}}
-                                                    <!-- Dish types -->
-                                                    <ul class="item-info-stats-2">
-                                                        <li class="stats-item stats-item-dish-type">
-                                                            <span class="truncate1" data-toggle="tooltip" title="{{dishTypesStr}}">
-                                                                <i class="fa fa-fire"></i>
-                                                                {{# each dish.dishTypes}}
-                                                                    <span><a herf="#">{{getDishTypeName dishTypeID}}</a></span>,&nbsp;
-                                                                {{/each}}
-                                                            </span>
-                                                        </li>
-                                                        {{!-- <li class="stats-item stats-item-cuisine">
-                                                            <span class="truncate1" data-toggle="tooltip" title="{{cuisinesStr}}">
-                                                                <i class="fa fa-tint"></i>
-                                                                {{# each cuisines}}
-                                                                    <span><a herf="#">{{getCuisineName cuisineID}}</a></span>,&nbsp;
-                                                                {{/each}}
-                                                            </span>
-                                                        </li>
-                                                        <li class="stats-item stats-item-diet">
-                                                            <span class="truncate1" data-toggle="tooltip" title="{{dietsStr}}">
-                                                                <i class="fa fa-leaf"></i>
-                                                                {{# each diets}}
-                                                                    <span><a herf="#">{{getDietName dietID}}</a></span>,&nbsp;
-                                                                {{/each}}
-                                                            </span>
-                                                        </li> --}}
-                                                    </ul>
-                                                </div>
-                                                {{!-- <div class="item-info-createdDate">
-                                                    <span>{{parseDateTime createdDate "/"}}</span>
-                                                </div> --}}
-                                                <div class="item-rating">
-                                                    <input type="hidden" class="starRating kv-ltr-theme-fas-star rating-loading" value="{{dish.rating}}" disabled data-size="xs"/>
+                                                            <div class="item-info-stats">
+                                                                {{!-- <ul class="item-info-stats-1">
+                                                                    <li class="stats-item">
+                                                                        <i class="fa fa-clock"></i>
+                                                                        <span>
+                                                                            <span>{{readyTime}}</span>
+                                                                            <span>min</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="stats-item">
+                                                                        <i class="fa fa-eye"></i>
+                                                                        <span>
+                                                                            <span>{{totalView}}</span>
+                                                                        </span>
+                                                                    </li>
+                                                                </ul> --}}
+                                                                <!-- Dish types -->
+                                                                <ul class="item-info-stats-2">
+                                                                    <li class="stats-item stats-item-dish-type">
+                                                                        <span class="truncate1" data-toggle="tooltip"
+                                                                            title="{{dishTypesStr}}">
+                                                                            <i class="fa fa-fire"></i>
+                                                                            {{# each dish.dishTypes}}
+                                                                            <span><a herf="#">{{getDishTypeName
+                                                                                    dishTypeID}}</a></span>,&nbsp;
+                                                                            {{/each}}
+                                                                        </span>
+                                                                    </li>
+                                                                    {{!-- <li class="stats-item stats-item-cuisine">
+                                                                        <span class="truncate1" data-toggle="tooltip"
+                                                                            title="{{cuisinesStr}}">
+                                                                            <i class="fa fa-tint"></i>
+                                                                            {{# each cuisines}}
+                                                                            <span><a herf="#">{{getCuisineName
+                                                                                    cuisineID}}</a></span>,&nbsp;
+                                                                            {{/each}}
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="stats-item stats-item-diet">
+                                                                        <span class="truncate1" data-toggle="tooltip"
+                                                                            title="{{dietsStr}}">
+                                                                            <i class="fa fa-leaf"></i>
+                                                                            {{# each diets}}
+                                                                            <span><a herf="#">{{getDietName
+                                                                                    dietID}}</a></span>,&nbsp;
+                                                                            {{/each}}
+                                                                        </span>
+                                                                    </li> --}}
+                                                                </ul>
+                                                            </div>
+                                                            {{!-- <div class="item-info-createdDate">
+                                                                <span>{{parseDateTime createdDate "/"}}</span>
+                                                            </div> --}}
+                                                            <div class="item-rating">
+                                                                <input type="hidden"
+                                                                    class="starRating kv-ltr-theme-fas-star rating-loading"
+                                                                    value="{{dish.rating}}" disabled data-size="xs" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-info-footer">
+                                                            <button type="button"
+                                                                class="btn btn-outline-success add-to-cart"
+                                                                id="{{dishID}}" style="min-width: 100%;"><i
+                                                                    class="fas fa-cart-plus mr-4"></i>Đặt món</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="item-info-footer">
-                                                <button type="button" class="btn btn-outline-success add-to-cart" id="{{dishID}}" style="min-width: 100%;"><i class="fas fa-cart-plus mr-4"></i>Đặt món</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                             {{/each}}
                                         </div>
                                         {{else}}

@@ -64,22 +64,6 @@
                                     <div class="col-md-7 waiting-recipe-info">
                                         <ul class="waiting-recipe-info-list">
                                             <li class="waiting-recipe-info-item">
-                                                <div class="row mb-2">
-                                                    <div class="col-md-4">
-                                                        <span class="waiting-recipe-info-item-text">Độ khó: </span>
-                                                        <span class="waiting-recipe-info-item-value">{{difficulty}}/5</span>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <span class="waiting-recipe-info-item-text">Khẩu phần: </span>
-                                                        <span class="waiting-recipe-info-item-value">{{servings}}</span>
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        <span class="waiting-recipe-info-item-text">Chỉ số sức khỏe: </span>
-                                                        <span class="waiting-recipe-info-item-value">{{healthScore}}/100</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="waiting-recipe-info-item">
                                                 <div class="row">
                                                     <span class="waiting-recipe-info-item-text col-md-4">Thời gian thực hiện: </span>
                                                     <span class="waiting-recipe-info-item-value col-md-8">{{readyTime}} (phút)</span>
@@ -162,7 +146,7 @@
                                 </div>
                                 <div class="row my-3 mx-2">
                                     <!-- Recipe guide -->
-                                    <h5 class="waitingRepGuideCollapse" data-toggle="collapse" aria-controls="collapseExample" href="#waitingRecipe{{@index}}" aria-expanded="false">Hướng dẫn thực hiện <i class="fa fa-caret-down"></i></h5>
+                                    <h5 class="waitingRepGuideCollapse" data-toggle="collapse" aria-controls="collapseExample" href="#waitingRecipe{{@index}}" aria-expanded="false">Mô tả quá trình thực hiện <i class="fa fa-caret-down"></i></h5>
                                     <div class="collapse" id="waitingRecipe{{@index}}">
                                         <div class="card card-body dish-instruction">
                                             {{# each steps}}
