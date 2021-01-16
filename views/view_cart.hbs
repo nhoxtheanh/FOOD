@@ -7,6 +7,83 @@
     .nav-link {
         padding: .5rem 1rem;
     }
+
+    .inputQuantity {
+        text-align: center;
+        padding-top: 5px;
+    }
+
+    .value-button {
+        display: inline-block;
+        border: 1px solid #ddd;
+        margin: 0px;
+        width: 40px;
+        height: 36px;
+        text-align: center;
+        vertical-align: middle;
+        padding: 11px 0;
+        background: #eee;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .value-button:hover {
+        cursor: pointer;
+    }
+
+    .inputQuantity #decrease {
+        margin-right: -4px;
+        border-radius: 8px 0 0 8px;
+    }
+
+    .inputQuantity #increase {
+        margin-left: -4px;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .inputQuantity #input-wrap {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    input.quantity {
+        text-align: center;
+        border: none;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        margin: 0px;
+        width: 40px;
+        height: 40px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .payContainer {
+        margin-top: 100px;
+    }
+
+    #btnPay {
+        margin-top: 70px;
+        width: 200px;
+        position: absolute;
+        right: 50px;
+        bottom: 50px;
+    }
+    .totalPrice {
+        margin-top: 70px; margin-right: 30px;
+        width: 200px;
+        position: absolute;
+        right: 250px;
+        bottom: 60px;
+    }
 </style>
 
 
@@ -85,16 +162,6 @@
                                                         <a href="/dish/{{dishID}}">
                                                             <img src="{{imageUrl}}" class="responsive" />
                                                         </a>
-                                                        {{!-- <div class="item-favorite">
-                                                            <span
-                                                                class="favoriteNumber{{dishID}}">{{favoriteNumber}}</span>
-                                                            {{#if isUserFavorite}}
-                                                            <i class="fa fa-heart favorite-dish" id="{{dishID}}"></i>
-                                                            {{else}}
-                                                            <i class="far fa-heart favorite-dish" id="{{dishID}}"></i>
-                                                            {{/if}}
-
-                                                        </div> --}}
                                                     </div>
                                                     <div class="item-info">
                                                         <div class="item-info-header">
@@ -126,6 +193,16 @@
                                                                 </ul>
                                                             </div>
                                                             <b class="dishPrice">30.000đ</b>
+                                                            <form class="inputQuantity">
+                                                                <div class="value-button" id="decrease"
+                                                                    onclick="decreaseValue({{dishID}})"
+                                                                    value="Decrease Value">-</div>
+                                                                <input type="number" id="quantity-{{dishID}}"
+                                                                    class="quantity" value="1" />
+                                                                <div class="value-button" id="increase"
+                                                                    onclick="increaseValue({{dishID}})"
+                                                                    value="Increase Value">+</div>
+                                                            </form>
                                                         </div>
                                                         {{!-- <div class="item-info-footer">
                                                             <button type="button"
@@ -138,11 +215,15 @@
                                             </div>
                                             {{/each}}
                                         </div>
+                                        <div class="payContainer">
+                                            <b class="totalPrice" id="totalPrice">Tổng tiền: 150.000</b>
+                                            <i class="fas fa-money-bill-wave"></i>
+                                            <button onclick="payMoney()"
+                                                type="button" id="btnPay" class="btn btn-lg btn-outline-primary">
+                                                Thanh toán</button></div>
                                         {{else}}
                                         <div>Giỏ hàng trống</div>
                                         {{/if}}
-
-
 
                                     </div>
                                 </div>
@@ -160,24 +241,78 @@
 </div>
 
 <script>
-$(document).ready(function(){
-    const currentCart = JSON.parse(localStorage.getItem('myCart'));
-    currentCart.forEach(element => {
-        $(`#${element.dishID}`).toggleClass("d-none");
+    $(document).ready(function () {
+        const currentCart = JSON.parse(localStorage.getItem('myCart'));
+        currentCart.forEach(element => {
+            $(`#${element.dishID}`).toggleClass("d-none");
+            $(`#quantity-${element.dishID}`).val(element.quantity);
+        });
+        updateTotalPrice();
     });
-});
 
-/*const currentCart = JSON.parse(localStorage.getItem('myCart'));
-let existedDish = false;
-currentCart.forEach(element => {
-    if(element.dishID == dishID) {  // nếu dishID đã có thì + thêm 1
-        existedDish = true;
-        element.quantity += 1;
+    /*const currentCart = JSON.parse(localStorage.getItem('myCart'));
+    let existedDish = false;
+    currentCart.forEach(element => {
+        if(element.dishID == dishID) {  // nếu dishID đã có thì + thêm 1
+            existedDish = true;
+            element.quantity += 1;
+        }
+    });
+    if (existedDish === false)
+        currentCart.push({"dishID":dishID,"quantity":1});   // nếu chưa tồn tại thì thêm vào
+    let myNewCart = JSON.stringify(currentCart);
+    localStorage.setItem('myCart', myNewCart);
+    swal.success("Đã thêm món ăn vào giỏ hàng");*/
+
+    function increaseValue(dishID) {
+        var value = $(`#quantity-${dishID}`).val();
+        value = isNaN(value) ? 0 : value;
+        value++;
+        $(`#quantity-${dishID}`).val(value);
+
+        const currentCart = JSON.parse(localStorage.getItem('myCart'));
+        currentCart.forEach(element => {
+            if (element.dishID == dishID) {
+                element.quantity = value;
+            }
+        });
+        let myNewCart = JSON.stringify(currentCart);
+        localStorage.setItem('myCart', myNewCart);
+        updateTotalPrice();
     }
-});
-if (existedDish === false)
-    currentCart.push({"dishID":dishID,"quantity":1});   // nếu chưa tồn tại thì thêm vào
-let myNewCart = JSON.stringify(currentCart);
-localStorage.setItem('myCart', myNewCart);
-swal.success("Đã thêm món ăn vào giỏ hàng");*/
+
+    function decreaseValue(dishID) {
+        var value = $(`#quantity-${dishID}`).val();
+        value = isNaN(value) ? 0 : value;
+        value < 1 ? value = 1 : '';
+        value--;
+        $(`#quantity-${dishID}`).val(value);
+
+        const currentCart = JSON.parse(localStorage.getItem('myCart'));
+        currentCart.forEach(element => {
+            if (element.dishID == dishID) {
+                element.quantity = value;
+            }
+        });
+        let myNewCart = JSON.stringify(currentCart);
+        localStorage.setItem('myCart', myNewCart);
+        updateTotalPrice();
+    }
+
+    function updateTotalPrice() {
+        let countItem = 0;
+        const currentCart = JSON.parse(localStorage.getItem('myCart'));
+        currentCart.forEach(element => {
+            countItem += element.quantity;
+        });
+        let totalPrice = countItem*30000;
+        let formatedPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        $("#totalPrice").text("Tổng tiền: " + formatedPrice);
+    }
+
+    function payMoney(){
+        //window.location.href = "http://localhost:3000";
+        localStorage.setItem('myCart', "[]");
+        swal.success("Bạn đã thanh toán thành công, vui lòng kiểm tra tình trạng đơn hàng");
+    }
 </script>
