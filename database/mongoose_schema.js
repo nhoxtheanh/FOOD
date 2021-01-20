@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     totalReviewSent: { type: Number, min: 0, default: 0 },
     isActive: Boolean,
     createdDate: Date,
-    userType: { type: Number, min: 0, default: 1 },
+    userType: { type: Number, min: 0, default: 2 },
 }, { collection: "Users" }, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
 userSchema.virtual("favoriteDishes", {

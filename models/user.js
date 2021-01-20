@@ -29,7 +29,7 @@ module.exports = {
                     address: "",
                     avatar: "avatar_default.png",
                     createdDate: today,
-                    isActive: true
+                    isActive: true,
                 });
                 try {
                     newUser.save(function(err) {
